@@ -3,6 +3,18 @@
 ## Optimizing app offers with Starbucks as part of my Udacity Data Science Nano Degree
 
 ---
+### Medium article
+The whole project is explained and examined in this [Medium Article](https://keanu-forthmann.medium.com/predicting-starbucks-customer-spendings-cca39b7533c2).
+
+### The repository includes the following folder and files
+- data - including three .jsons with all data used  
+  - profile.json - contains people demographic data
+  - transcript.json - transcript of all customer actions
+  - portfolio.json - overview about all offers
+- images - chart images from Jupyter Notebook
+- Starbucks_Capstone_notebook.ipynb - Jupyter Notebook with all
+
+---
 
 This project is about Starbucks - so here is some information about Starbucks in brief. The Starbucks Corporation is an American multinational chain of coffeehouses and roastery reserves headquartered in Seattle, Washington. It was founded in 1971 and as of 2020 they operated more than 30,000 places in over 70 countries. In 2019 they made a total revenue of US$ 26.50 billion.
 Part 1 - Project Definition
@@ -10,13 +22,17 @@ Within the following three segments the problem domain, problem project origin a
 1.1/ Project Overview
 Starbucks runs a rewards mobile app which is a way for customers to pay in store or skip the line and order ahead. Rewards are built right in, so they'll collect stars and start earning free drinks and food with every purchase.
 The given data set for this project was provided by Starbucks via Udacity as part of my Data Science Nano Degree. The data set contains simulated data that mimics customer behavior on the rewards mobile app. Once every few days, Starbucks sends out an offer to users of the mobile app. An offer can be merely an advertisement for a drink or an actual offer such as a discount or a buy one get one free offer (BOGO). Some users might not receive any offer during certain weeks.
+
 This data set is a simplified version of the real Starbucks app because the underlying simulator only has one product whereas Starbucks actually sells dozens of products. The provided simulated data is stated as for the sake of testing the algorithms and not in order to mimic real people. Furthermore we have to understand that different individuals will respond in different ways on the various given offers. Regarding peoples behavior we should also consider that some people may not want to receive any type of offer, in which case we better do not offer them offers at all.
+
 Example of Starbucks rewards mobile app, Source: Starbucks.comEvery offer has a validity period before the offer expires. As an example, a BOGO offer might be valid for only 5 days. We can see in the data set that informational offers have a validity period even though these ads are merely providing information about a product. That means, if an informational offer has 7 days of validity, you can assume the customer is feeling the influence of the offer for 7 days after receiving the advertisement.
+
 We're given transactional data showing user purchases made on the app including the timestamp of purchase and the amount of money spent on a purchase. This transactional data also has a record for each offer that a user receives as well as a record for when a user actually views the offer. There are also records for when a user completes an offer.
+
 The data is contained in three files:
-portfolio.json - containing offer ids and meta data about each offer (duration, type, etc.)
-profile.json - demographic data for each customer
-transcript.json - records for transactions, offers received, offers viewed, and offers completed
+- portfolio.json - containing offer ids and meta data about each offer (duration, type, etc.)
+- profile.json - demographic data for each customer
+- transcript.json - records for transactions, offers received, offers viewed, and offers completed
 
 Here is the schema and explanation of each variable in the files:
 - portfolio.json
