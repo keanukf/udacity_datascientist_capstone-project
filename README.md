@@ -21,7 +21,7 @@ This project is about Starbucks - so here is some information about Starbuck
 # Part 1 - Project Definition
 Within the following three segments the problem domain, problem project origin and given data set is explained.
 
-##1.1/ Project Overview
+## 1.1/ Project Overview
 Starbucks runs a rewards mobile app which is a way for customers to pay in store or skip the line and order ahead. Rewards are built right in, so they'll collect stars and start earning free drinks and food with every purchase.
 The given data set for this project was provided by Starbucks via Udacity as part of my Data Science Nano Degree. The data set contains simulated data that mimics customer behavior on the rewards mobile app. Once every few days, Starbucks sends out an offer to users of the mobile app. An offer can be merely an advertisement for a drink or an actual offer such as a discount or a buy one get one free offer (BOGO). Some users might not receive any offer during certain weeks.
 
@@ -58,7 +58,7 @@ transcript.json
 - time (int) - time in hours since start of test. The data begins at time t=0
 - value - (dict of strings) - either an offer id or transaction amount depending on the record
 
-##1.2/ Problem Statement
+## 1.2/ Problem Statement
 So the main purpose of this project is to discover how we can predict customer spendings - the amount of money spent, to be precise. Not just on a population level but on an individual personalized level. Finding a good way to understand what makes people spend money based on different individual and common traits, would enhance Starbucks to provide customers just with the right offers and to not blindly send offers. This overall goal leads to the following questions:
 How can we best predict how much money a customers will spend? 
 What offers seem to work best regarding customer spendings?
@@ -70,19 +70,19 @@ Looking at the data possible features are peoples demographics (profile.json) or
 Another important perspective of analysis is to create a customer-offer-matrix that reflects whenever a customers was successfully influenced by an offer. That is, when a customer received, viewed (!) and completed an offer. It has to be kept in mind that someone using the app might make a purchase through the app without having received an offer or seen an offer. Then we can cluster people by different offer types and observe how certain groups of customers respond to different offers. 
 In the end we would expect to have an overview of what factors influence peoples buying behavior and also know different groups of customers that respond to specific offer types (or even don't like offers at all).
 
-##1.3 / Metrics
+## 1.3 / Metrics
 Once we’ve implemented all strategies explained above, we need a way to tell how accurately we are able to answer the stated questions. So how do we measure the performance of our models?
 
 The current Starbucks logo, Source: Starbucks.com
 Once we’ve applied a regression model we are able to conclude the amount of variance we can explain with given features — the respective key number here is called R-Squared (e.g. an R-Squared of 0.5 would mean that 50 percent of variance in money spend can be explained with given features). Afterwards we can also rank the considered features by impact on the observed variable (money spend). The higher the R-Squared, the better we can predict customer behavior. Hence the better we can evaluate the impact of certain features.
 
-#Part 2 — Data Analysis
-##2.1/ The offer portfolio
+# Part 2 — Data Analysis
+## 2.1/ The offer portfolio
 The portfolio.json file contains 10 different types of offers. We have 4 BOGOs, 2 informational offers and 4 discount offers. We obviously have no missing values.
 
 Jupyter Notebook excerpt of profile.json
 
-##2.2/ Peoples profiles
+## 2.2/ Peoples profiles
 The profile.json data contains 17'000 entries of registered individuals in total, with only missing values in columns gender and income (Fig. A.1). There are 2'175 missing values in those columns each. Considering the respective columns, this seems to be likely, since gender and income are information that one might not want to provide.
 
 Figure A.1: Visualized overview of missing values
@@ -100,7 +100,7 @@ The became_member_on column was recorded a numerical data and is reflecting the 
 
 
 Figure A.5
-##2.3/ Transaction data
+## 2.3/ Transaction data
 The transcript.json data contains 306'534 entries of different transactions (and other events), with no missing values on the first sight. When looking at the distribution of different events, we can see most of the events are transactions (138'953) that contain information about the amount of money spend (next to the persons id within the corresponding dictionary of the value column). Then in decreasing order the events are offer received, offer viewed and offer completed. And this makes sense for logical reasons, since an offer can only be viewed when received before and there can not be more completed, than viewed offers. Within those rows, the data includes only the persons id in the value column (Fig. A.6).
 
 Figure A.6
@@ -108,8 +108,8 @@ The time column contains information about time in hours since start of test. Si
 
 Figure A.7
 
-#Part 3 — Predicting customer spendings with linear regression
-##3.1/ Data preprocessing
+# Part 3 — Predicting customer spendings with linear regression
+## 3.1/ Data preprocessing
 In order to apply ML models and answer our question how we can predict customer spendings we need to create our target variable that we want to predict. This information is kept in the dictionary within the value column of the transcript table. So the transcript table was filtered for transaction events and the amount spent was extracted and then the data was grouped by peoples id and the amount of money was summed up. Now we have a table that contains how much each person has spent since they were registered. Since there were no missing values, nothing had to be cleaned.
 Next we need to gather our features that we want to use for our predictions. Therefore our new table was merged with the profile data to get demographic data for each person. We now have a data set that contains our target variable and possible features with no missing values (Fig. B.1). Another column was added that measures the number of days a customer is a member until the date of 20th of September 2020 (randomly chosen), named member_days. A later date would just add a constant amount of days to every row, statistically not changing anything (excluding scaling considerations at this point) in the way to predict spendings.
 
@@ -121,7 +121,7 @@ We can now also plot some scatter plots with our target variable and different n
 
 Figure B.2
 
-##3.2/ Implementation
+## 3.2/ Implementation
 Then a function for applying the sklearn LinearRegression model was defined, that takes a pandas dataframe, with features and our target variable data. Rows with missing values in the target variable are dropped (not necessary in this case but needed for applying the regression model). Missing values within the features are imputed and filled with the mean. This is just one way to cope with missing data, but for now we do not have any missing data. Then, data is splitted into train and test data, sklearn LinearRegression model is trained and data is normalized by the models functionality. Test scores are calculated and everything of interest is put out.
 R-Squared is 0.30545 for training data and 0.28487 for test data, meaning we were able to explain 28.49% of variance in average spendings by income, age, member days, time and gender (on unseen data). Since the test score is a little smaller than the train score, we seem to have slight overfitting, meaning our ML model is explaining this particular (training) data set and fails a bit to generalize on unseen data. More information about overfitting and underfitting can be found here.
 To better understand the the impact of different features four plots are given below, each showing a scatter plot of average money spend over one of the features, both being data randomly taken as training set (Fig. B.4). The y-axis is again set between 0 and 35. OLS Regression plots are visualized for different gender groups with plotlys build-in regression function. It has to be mentioned that this is not visualizing the regression model, which is a multiple regression model and those shown below are different bivariate regression models.
@@ -170,11 +170,11 @@ Here we see, that the 6 features with most impact are income, female gender, tra
 
 Figure B.13
 
-##3.3/ Refinement
-###Normalization
+## 3.3/ Refinement
+### Normalization
 When comparing normalized and not normalized data in linear regression we so no difference in training and testing scores. Another way to fine tune our model is regularization.
 
-###Regularization
+### Regularization
 A linear regression model works by minimizing the loss function. A coefficient for each feature is chosen and large coefficients can lead to overfitting. A way to refine the model we have so far regarding complexity is regularizing the model — e.g. using the Ridge Regression. This model is keeping the model complexity at a moderate level with giving penalties on high coefficients. More about the Ridge Regression can be found here.
 So the Ridge Regression has two parameters that can be fine tuned — alpha and normalization. To find the best parameters a 5-crossfold-validation (5-CV) with GridSearchCV was implemented. Parameter space for normalization was set to True and False and for alpha a linear space with 50 samples was set. Evaluating best parameters of 5-CV tells us that we get best prediction scores (R-Squared 0.29721 as best score) for alpha being 14.69 and not normalizing.
 
@@ -188,8 +188,8 @@ Figure B.16
 We can do the same as done in Fig. B.14, for Lasso Regressor (not normalized because we already found out to be better in Ridge Regression) and will get a graph that looks like Fig. B.15. Here we see that with increasing alpha, scores are decreasing so for our feature selection Lasso Regression we better choose a low alpha.
 When applying the lasso regressor on our data (with an alpha of 0.01) we get the following overview about our coefficients (Fig. B.16). Here we can see that the features income and transaction count were thrown out. This just partially overlaps with our previous findings.
 
-#Part 4— Conclusion
-##4.1/ Reflection
+# Part 4— Conclusion
+## 4.1/ Reflection
 So let’s look back what we’ve done in this project. We initially looked at the data and specific characteristics of different columns. We cleaned the data, engineered various features, applied a Linear Regression model and checked for multicollinearity. Then we threw out a bunch of features. Finally we fine-tuned our model with normalization and regularization, speaking of Ridge and Lasso Regressions, which we fine-tuned with cross-fold-validation.
 Since we just have implemented linear ML models there are some things to consider regarding other ML models, e.g. Decision Trees.
 Decision trees also support non linearity, where Linear Regression models only support linear solutions. When there are large number of features with less data-sets (with low noise), linear regressions may outperform Decision trees/random forests. In general cases, Decision trees will be having better average accuracy. For categorical independent variables, decision trees are better than linear regression. Decision trees handles collinearity better than LR. You can read more about different ML models in comparison here.
@@ -204,7 +204,7 @@ How can customers be characterized regarding spending characteristics?
 When trying to characterize customers we saw a bimodal distribution in average customers spendings. Maybe a main driver for the peak in lower spendings is that some people just do not want to spend that much (as we considered in the beginning). Maybe the other group is willing to pay more based on the factors we identified before.
 Regarding business decisions we again can decide between quick wins and large leverage. It could be investigated what would make the group of low paying customer spend more or one could focus more on optimizing offers for people that are willing to spend more.
 
-##4.2/ Limitations and improvement
+## 4.2/ Limitations and improvement
 Coming to an end, this project is far from being finished. It should be viewed as a starting point and first indication for further analysis. Although our models performed quite well, one could try to get even more statistically validated results. The following limitations should be considered:
 The difference in Lasso Model selection and coefficient rankings should be further explored and explained, because features like income were deselected by Lasso Regression.
 Also we didn’t have any closer outlier detection (although partially implemented with regularization). This might also improve model accuracy.
